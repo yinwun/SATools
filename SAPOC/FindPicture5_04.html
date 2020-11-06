@@ -1,0 +1,895 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>找图插件V5.04[361度]帮助</title>
+<style>
+body{font-size:12px; font-family:Verdana,"宋体"}
+.ts{ background:#fff; margin:0 0 40px 0;}
+.ts th{ color:#7B797B; background:#DEDFDE; line-height:24px;}
+.ts td {padding:6px 0;}
+.name { font-size:16px; font-weight:bold; border-bottom:1px dashed #9C9A9C; color:#006939;}
+.canshu { background:#E7E7EF;}
+.red{ color:#d60000;}
+.fanhui{ border-bottom:1px dashed #9C9A9C;}
+.lizi{ border-bottom:1px dashed #9C9A9C;}
+.STYLE2 {color: #008000}
+.STYLE3 {color: #000000}
+</style></head><body>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+<tr><th width="100px">命令名称：</th>
+<td class="name">
+<a name="LoadBMP" id="LoadBMP"></a>LoadBMP 载入BMP文件数据</td>
+</tr><tr><th>命令功能：</th><td>
+载入BMP文件数据。载入BMP图片文件的数据到<span onclick="tagshow(event)" href="tag.php?name=%C4%DA%B4%E6">内存</span>，可以同时载入多个文件，要求图片格式是24位BMP文件，找图前使用该命令，在脚本中运行一次该命令即可。</td>
+</tr><tr><th>命令参数：</th>
+<td class="canshu">参数1　文件名组：字符串或一维数组，由于一次载入多个BMP文件，所以称为文件名组。如果一次只载入一个BMP文件，此处参数填写该BMP文件路径即可。如果一次载入多个BMP文件，可以使用两种形式：1.字符串形式，各文件路径用“|”号隔开，例如：图片1文件路径|图片2文件路径|图片3文件路径；2.数组形式：支持用文件路径名构成的一维数组做参数。在按键精灵8.0及以后的版本中，该命令可以使用附件直读文件，即该参数中的文件名可以使用“Attachment:\文件名”的形式。</td>
+</tr><tr><th>返回值：</th>
+<td class="fanhui">一维的整数数组，成功时返回的是数据句柄数组，失败时返回的是大小为0的一维数组，可用GetErrorCode获得错误代码。每个BMP文件载入内存后都将获得一个对应的数据句柄，这个句柄将作为找图命令的参数。一次载入多个BMP文件，将同时获得多个数据句柄，数据句柄数组里存放的就是这些数据句柄。数据句柄在数组中的排列顺序和文件名组中对应的图片的顺序相同。</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(8.x语法)</span>
+</th><td class="lizi">&nbsp;</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(7.x语法)</span>
+</th><td>&nbsp;</td>
+</tr></table>
+
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+<tr><th width="100px">命令名称：</th>
+<td class="name">
+<a name="FreeBMP" id="FreeBMP"></a>FreeBMP 卸载BMP文件数据</td>
+</tr><tr><th>命令功能：</th><td>
+卸载BMP文件数据。释放用LoadBMP命令载入到内存中的图片数据。</td>
+</tr><tr><th>命令参数：</th>
+<td class="canshu">
+参数1　数据句柄数组：数组，和LoadBMP命令中的意义相同，直接使用LoadBMP命令的返回值作为该参数即可，如果使用了N次LoadBMP命令，FreeBMP命令也必须使用N次，LoadBMP和FreeBMP配对使用</td>
+</tr><tr><th>返回值：</th><td class="fanhui">&nbsp;</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(8.x语法)</span>
+</th><td class="lizi">&nbsp;</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(7.x语法)</span>
+</th><td>&nbsp;</td>
+</tr></table>
+
+
+
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+<tr><th width="100px">命令名称：</th>
+  <td class="name">
+<a name="FindPicture" id="FindPicture"></a>FindPicture 范围找图</td>
+</tr><tr><th>命令功能：</th><td>
+范围找图，获得找到的第一个坐标。用于找图的图片四角的颜色相同时，被该颜色被视为透明色，找图顺序和按键精灵相同。</td>
+</tr><tr><th>命令参数：</th>
+<td class="canshu">
+参数1　窗口句柄：整型数，每个窗口都有一个窗口句柄，不同窗口的窗口句柄不同，即使是同一个程序多开时，它们的窗口句柄也不相同，所以可以用窗口句柄来确定是哪个窗口。当要进行全屏找图时，窗口句柄取0。<br />
+参数2-5　左边界,上边界,右边界,下边界：整型数，左边界和上边界分别是是待找图区域左上角的横坐标和纵坐标，右边界和下边界分别是是待找图区域右下角的横坐标和纵坐标，如果窗口句柄不为0，这里的坐标是窗口坐标，如果窗口句柄为0，这里的坐标是屏幕坐标。<br />
+参数6　数据句柄或图片文件路径：数据句柄见LoadBMP命令返回值说明中数据句柄组里的解释；图片文件路径，字符串，要求图片格式是24位BMP文件，在按键精灵8.0及以后的版本中，支持附件直读。<br />
+参数7　颜色最大偏差：整型数，指的是颜色的最大允许偏差，用于解决在不同电脑上的颜色偏差问题。取值范围是0到255，取0时颜色不允许有偏差。<br />
+参数8　相似度：浮点数，表示不满足条件的点所允许占的比例。取值为0到1之间的小数，1为最相似，相似度越高找图速度越快。<br />
+参数9-10　横坐标,纵坐标：整型数，此处用变量作为参数，用于接收找到的图形的横坐标和纵坐标，未找到时横坐标和纵坐标都为-1。</td>
+</tr><tr><th>返回值：</th><td class="fanhui">&nbsp;</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(8.x语法)</span>
+</th>
+  <td class="lizi"><p><strong>例子1：</strong><br />
+    Call Plugin.FindPicture5_04.FindPicture(0,0,0,1024,768,&quot;Attachment:\图A.bmp&quot;,30,0.9,x,y)<br />
+    If x&gt;=0 And y&gt;=0 Then<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;坐标：&quot;&amp;CStr(x)&amp;&quot;,&quot;&amp;CStr(y),4096<br />
+    Else<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+    End If</p>
+    <p><strong>例子2：</strong><br />
+      HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+      If UBound(HandleArray)=-1 Then<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+      End If<br />
+      Call Plugin.FindPicture5_04.FindPicture(0,0,0,1024,768,HandleArray(0),30,0.9,x,y)<br />
+      If x&gt;=0 And y&gt;=0 Then<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;坐标：&quot;&amp;CStr(x)&amp;&quot;,&quot;&amp;CStr(y),4096<br />
+      Else<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+      End If<br />
+      <span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+      Sub OnScriptExit()<br />
+      <span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+    End Sub</p></td>
+</tr><tr><th>脚本例子：<br /><span class="red">(7.x语法)</span>
+</th>
+  <td class="lizi"><p><strong>例子1：</strong><br />
+    Plugin FindPicture5_04.FindPicture(0,0,0,1024,768,&quot;图A.bmp&quot;,30,0.9,x,y)<br />
+    If x&gt;=0 And y&gt;=0<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;坐标：&quot;&amp;CStr(x)&amp;&quot;,&quot;&amp;CStr(y),4096<br />
+    Else<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+    EndIf</p>
+    <p><strong>例子2：</strong><br />
+      Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+      If UBound(HandleArray)=-1<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+      EndIf<br />
+      Plugin FindPicture5_04.FindPicture(0,0,0,1024,768,HandleArray(0),30,0.9,x,y)<br />
+      If x&gt;=0 And y&gt;=0<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;坐标：&quot;&amp;CStr(x)&amp;&quot;,&quot;&amp;CStr(y),4096<br />
+      Else<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+      EndIf<br />
+      EndScript<br />
+      <span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+      Sub OnScriptExit<br />
+      <span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+    Return</p></td>
+</tr></table>
+
+
+
+
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+<tr><th width="100px">命令名称：</th>
+<td class="name">
+<a name="FindPictureA" id="FindPictureA"></a>FindPictureA 范围找图</td>
+</tr><tr><th>命令功能：</th>
+<td>
+范围找图，获得找到的所有坐标。用于找图的图片四角的颜色相同时，被该颜色被视为透明色，找图顺序和按键精灵相同。</td>
+</tr><tr><th>命令参数：</th>
+<td class="canshu">参数1　窗口句柄：整型数，每个窗口都有一个窗口句柄，不同窗口的窗口句柄不同，即使是同一个程序多开时，它们的窗口句柄也不相同，所以可以用窗口句柄来确定是哪个窗口。当要进行全屏找图时，窗口句柄取0。<br />
+参数2-5　左边界,上边界,右边界,下边界：整型数，左边界和上边界分别是是待找图区域左上角的横坐标和纵坐标，右边界和下边界分别是是待找图区域右下角的横坐标和纵坐标，如果窗口句柄不为0，这里的坐标是窗口坐标，如果窗口句柄为0，这里的坐标是屏幕坐标。<br />
+参数6　数据句柄或图片文件路径：数据句柄见LoadBMP命令返回值说明中数据句柄组里的解释；图片文件路径，字符串，要求图片格式是24位BMP文件，在按键精灵8.0及以后的版本中，支持附件直读。<br />
+参数7　颜色最大偏差：整型数，指的是颜色的最大允许偏差，用于解决在不同电脑上的颜色偏差问题。取值范围是0到255，取0时颜色不允许有偏差。<br />
+参数8　相似度：浮点数，表示不满足条件的点所允许占的比例。取值为0到1之间的小数，1为最相似，相似度越高找图速度越快。</td>
+</tr><tr><th>返回值：</th>
+<td class="fanhui">
+二维数组，第一维大小是两个元素，分别存放横坐标和纵坐标的数值。未找到图或失败时返回的二维数组第二维大小是0，可用GetErrorCode获得错误代码。</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(8.x语法)</span>
+</th>
+<td class="lizi">HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\1.bmp|Attachment:\2.bmp|Attachment:\3.bmp&quot;)<br />
+  <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+XYArray=Plugin.FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+n=UBound(XYArray,2)+1<br />
+If n Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Next<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</td>
+</tr><tr><th>脚本例子：<br /><span class="red">(7.x语法)</span>
+</th><td>Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;1.bmp|2.bmp|3.bmp&quot;)<br />
+  <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+  If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+n=UBound(XYArray,2)+1<br />
+If n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndFor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+EndScript<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</td>
+</tr></table>
+
+
+
+
+
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="FindPictureN" id="FindPictureN"></a>FindPictureN 范围找多图</td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 范围找多图,获得找到的第一个坐标。用于找图的图片四角的颜色相同时，被该颜色被视为透明色，找图顺序和按键精灵相同。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　窗口句柄：整型数，每个窗口都有一个窗口句柄，不同窗口的窗口句柄不同，即使是同一个程序多开时，它们的窗口句柄也不相同，所以可以用窗口句柄来确定是哪个窗口。当要进行全屏找图时，窗口句柄取0。<br />
+      参数2-5　左边界,上边界,右边界,下边界：整型数，左边界和上边界分别是是待找图区域左上角的横坐标和纵坐标，右边界和下边界分别是是待找图区域右下角的横坐标和纵坐标，如果窗口句柄不为0，这里的坐标是窗口坐标，如果窗口句柄为0，这里的坐标是屏幕坐标。<br />
+      参数6　数据句柄数组：一维数组，数据句柄见LoadBMP命令返回值说明中数据句柄组数组里的解释。<br />
+      参数7　颜色最大偏差：整型数，指的是颜色的最大允许偏差，用于解决在不同电脑上的颜色偏差问题。取值范围是0到255，取0时颜色不允许有偏差。<br />
+      参数8　相似度：浮点数，表示不满足条件的点所允许占的比例。取值为0到1之间的小数，1为最相似，相似度越高找图速度越快。<br />
+      参数9-10　横坐标,纵坐标：整型数，此处用变量作为参数，用于接收找到的图形的横坐标和纵坐标，未找到时横坐标和纵坐标都为-1。<br />
+      参数11　图片序号：整型数，此处用变量作为参数，用于表示找到的是哪个图，未找到时为-1。</td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi"><p>FileArray=Array(&quot;Attachment:\1.bmp&quot;,&quot;Attachment:\2.bmp&quot;,&quot;Attachment:\3.bmp&quot;,&quot;Attachment:\4.bmp&quot;)<br />
+<span class="STYLE2">//用文件名组成的数组做参数</span><br />
+HandleArray=Plugin.FindPicture5_04.LoadBMP(FileArray)<br />
+<span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败！&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+Call Plugin.FindPicture5_04.FindPictureN(0,0,0,1024,768,HandleArray,30,0.9,x,y,number)<br />
+If x&gt;=0 And y&gt;=0 And number&gt;=0 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;坐标：&quot;&amp;CStr(x)&amp;&quot;,&quot;&amp;CStr(y)&amp;&quot; 图片：&quot;&amp;FileArray(number),4096<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</p>
+    </td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td class="lizi"><p>FileArray=Array(&quot;1.bmp&quot;,&quot;2.bmp&quot;,&quot;3.bmp&quot;,&quot;4.bmp&quot;)<br />
+        <span class="STYLE2">//用文件名组成的数组做参数</span><br />
+      Plugin HandleArray=FindPicture5_04.LoadBMP(FileArray)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+      If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败！&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin FindPicture5_04.FindPictureN(0,0,0,1024,768,HandleArray,30,0.9,x,y,number)<br />
+If x&gt;=0 And y&gt;=0 And number&gt;=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;坐标：&quot;&amp;CStr(x)&amp;&quot;,&quot;&amp;CStr(y)&amp;&quot; 图片：&quot;&amp;FileArray(number),4096<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+EndScript<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</p>
+    </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="FindPictureNA" id="FindPictureNA"></a>FindPictureNA 范围找多图</td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 范围找多图,获得找到的所有坐标。用于找图的图片四角的颜色相同时，被该颜色被视为透明色，找图顺序和按键精灵相同。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　窗口句柄：整型数，每个窗口都有一个窗口句柄，不同窗口的窗口句柄不同，即使是同一个程序多开时，它们的窗口句柄也不相同，所以可以用窗口句柄来确定是哪个窗口。当要进行全屏找图时，窗口句柄取0。<br />
+      参数2-5　左边界,上边界,右边界,下边界：整型数，左边界和上边界分别是是待找图区域左上角的横坐标和纵坐标，右边界和下边界分别是是待找图区域右下角的横坐标和纵坐标，如果窗口句柄不为0，这里的坐标是窗口坐标，如果窗口句柄为0，这里的坐标是屏幕坐标。<br />
+      参数6　数据句柄数组：一维数组，数据句柄见LoadBMP命令返回值说明中数据句柄组数组里的解释。<br />
+      参数7　颜色最大偏差：整型数，指的是颜色的最大允许偏差，用于解决在不同电脑上的颜色偏差问题。取值范围是0到255，取0时颜色不允许有偏差。<br />
+      参数8　相似度：浮点数，表示不满足条件的点所允许占的比例。取值为0到1之间的小数，1为最相似，相似度越高找图速度越快。</td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">二维数组，第一维大小是三个元素，分别存放横坐标、纵坐标和图片序号的数值。未找到图或失败时返回的二维数组第二维大小是0，可用GetErrorCode获得错误代码。</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi"><p>Dim FileArray(2)<br />
+FileArray(0)=&quot;Attachment:\1.bmp&quot;<br />
+FileArray(1)=&quot;Attachment:\2.bmp&quot;<br />
+FileArray(2)=&quot;Attachment:\3.bmp&quot;<br />
+HandleArray=Plugin.FindPicture5_04.LoadBMP(FileArray)<br />
+<span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+XYArray=Plugin.FindPicture5_04.FindPictureNA(0,0,0,1024,768,HandleArray,30,0.9)<br />
+n=UBound(XYArray,2)+1<br />
+If n Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))&amp;&quot;,&quot;&amp;FileArray(XYArray(2,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))&amp;&quot;,&quot;&amp;FileArray(XYArray(2,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Next<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+      <span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+      Sub OnScriptExit()<br />
+      <span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+      End Sub</p></td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td class="lizi"><p>Dim FileArray(2)<br />
+      FileArray(0)=&quot;1.bmp&quot;<br />
+      FileArray(1)=&quot;2.bmp&quot;<br />
+      FileArray(2)=&quot;3.bmp&quot;<br />
+      Plugin HandleArray=FindPicture5_04.LoadBMP(FileArray)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+      If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureNA(0,0,0,1024,768,HandleArray,30,0.9)<br />
+n=UBound(XYArray,2)+1<br />
+If n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))&amp;&quot;,&quot;&amp;FileArray(XYArray(2,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))&amp;&quot;,&quot;&amp;FileArray(XYArray(2,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndFor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+EndScript<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</p></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="ExcludePos" id="ExcludePos"></a>ExcludePos 筛选坐标区域</td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 筛选坐标区域。用于对FindPictureA和FindPictureNA返回的坐标数组进行筛选，可排除指定区域内或外的坐标。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　坐标数组：二维数组，可由FindPictureA和FindPictureNA获得。筛选后的数组也由此处得到，如果筛选后得到的坐标数为0，则为长度为0的数组。<br />
+    参数2-5　左边界,上边界,右边界,下边界：整型数，左边界和上边界分别是是待找图区域左上角的横坐标和纵坐标，右边界和下边界分别是是待找图区域右下角的横坐标和纵坐标。<br />
+    参数6　方式：整型数，取0时，排除指定区域内的所有坐标，取1时，排除指定区域外的所有坐标。</td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+    <span class="red">(8.x语法)</span> </th>
+    <td class="lizi"><p>HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\图A.bmp&quot;)<br />
+        <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+XYArray=Plugin.FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Call Plugin.FindPicture5_04.ExcludePos(XYArray,400,300,600,450,0)<br />
+        n=UBound(XYArray,2)+1<br />
+        If n Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Next<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</p>
+    </td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td>Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Plugin FindPicture5_04.ExcludePos(XYArray,400,300,600,450,0)<br />
+n=UBound(XYArray,2)+1<br />
+If n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndFor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+EndScript<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br /> 
+Return</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="FindPos" id="FindPos"></a>FindPos 找坐标 </td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 找坐标。查找FindPictureA和FindPictureNA返回的坐标数组中特定的坐标。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　坐标数组：二维数组，可由FindPictureA和FindPictureNA获得。<br />
+      参数2　方式：整型数，用于指定找坐标的方法，可取值如下：<br />
+      <table width="336" border="1" cellpadding="0" cellspacing="0">
+        <tr>
+          <th width="37" scope="col"><span class="STYLE3">值</span></th>
+          <th width="293" scope="col"><span class="STYLE3">方式</span></th>
+        </tr>
+        <tr>
+          <td align="center">0</td>
+          <td>先找纵坐标最小值，如果有相同的，再找横坐标最小值</td>
+        </tr>
+        <tr>
+          <td align="center">1</td>
+          <td>先找纵坐标最小值，如果有相同的，再找横坐标最大值</td>
+        </tr>
+        <tr>
+          <td align="center">2</td>
+          <td>先找纵坐标最大值，如果有相同的，再找横坐标最小值</td>
+        </tr>
+        <tr>
+          <td align="center">3</td>
+          <td>先找纵坐标最大值，如果有相同的，再找横坐标最大值</td>
+        </tr>
+        <tr>
+          <td align="center">4</td>
+          <td>先找横坐标最小值，如果有相同的，再找纵坐标最小值</td>
+        </tr>
+        <tr>
+          <td align="center">5</td>
+          <td>先找横坐标最小值，如果有相同的，再找纵坐标最大值</td>
+        </tr>
+        <tr>
+          <td align="center">6</td>
+          <td>先找横坐标最大值，如果有相同的，再找纵坐标最小值</td>
+        </tr>
+        <tr>
+          <td align="center">7</td>
+          <td>先找横坐标最大值，如果有相同的，再找纵坐标最大值</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">整型数，成功时，返回找到的坐标在坐标数组中的序号；失败时，返回负数。</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi"><p>HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\图A.bmp&quot;)<br />
+        <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+XYArray=Plugin.FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+i=Plugin.FindPicture5_04.FindPos(XYArray,2)<br />
+        If i&gt;=0 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i)),4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</p>
+    </td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td>Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Plugin i=FindPicture5_04.FindPos(XYArray,2)<br />
+If i&gt;=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i)),4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="FindNearestPos" id="FindNearestPos"></a>FindNearestPos 找最近的坐标 </td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 找最近的坐标。查找FindPictureA和FindPictureNA返回的坐标数组中离指定坐标最近的坐标。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　坐标数组：二维数组，可由FindPictureA和FindPictureNA获得。<br />
+      参数2-3　横坐标,纵坐标：整型数，找最近的坐标，是以这里指定的坐标为基准。</td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">整型数，成功时，返回找到的坐标在坐标数组中的序号；失败时，返回负数。</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi">HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+XYArray=Plugin.FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+i=Plugin.FindPicture5_04.FindNearestPos(XYArray,500,350)<br />
+If i&gt;=0 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i)),4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td>Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Plugin i=FindPicture5_04.FindNearestPos(XYArray,500,350)<br />
+If i&gt;=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i)),4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="SortPos" id="SortPos"></a>SortPos 坐标排序</td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 坐标排序。给FindPictureA和FindPictureNA返回的坐标数组排序。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　坐标数组：二维数组，可由FindPictureA和FindPictureNA获得。排序后的数组也由此处得到。<br />
+      参数2　方式：整型数，用于决定排序方式，可取指如下：<br />
+      <table width="374" border="1" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="37" scope="col"><span class="STYLE3">值</span></th>
+          <th width="331" scope="col"><span class="STYLE3">方式</span></th>
+        </tr>
+        <tr>
+          <td align="center">0</td>
+          <td>按纵坐标从小到大排序，如果有相同，按横坐标从小到大排序</td>
+        </tr>
+        <tr>
+          <td align="center">1</td>
+          <td>按纵坐标从小到大排序，如果有相同，按横坐标从大到小排序</td>
+        </tr>
+        <tr>
+          <td align="center">2</td>
+          <td>按纵坐标从大到小排序，如果有相同，按横坐标从小到大排序</td>
+        </tr>
+        <tr>
+          <td align="center">3</td>
+          <td>按纵坐标从大到小排序，如果有相同，按横坐标从大到小排序</td>
+        </tr>
+        <tr>
+          <td align="center">4</td>
+          <td>按横坐标从小到大排序，如果有相同，按纵坐标从小到大排序</td>
+        </tr>
+        <tr>
+          <td align="center">5</td>
+          <td>按横坐标从小到大排序，如果有相同，按纵坐标从大到小排序</td>
+        </tr>
+        <tr>
+          <td align="center">6</td>
+          <td>按横坐标从大到小排序，如果有相同，按纵坐标从小到大排序</td>
+        </tr>
+        <tr>
+          <td align="center">7</td>
+          <td>按横坐标从大到小排序，如果有相同，按纵坐标从大到小排序</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi">HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+XYArray=Plugin.FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Call Plugin.FindPicture5_04.SortPos(XYArray,6)<br />
+n=UBound(XYArray,2)+1<br />
+If n Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Next<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td>Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Plugin FindPicture5_04.SortPos(XYArray,6)<br />
+n=UBound(XYArray,2)+1<br />
+If n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndFor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+EndScript<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="SortDistancePos" id="SortDistancePos"></a>SortDistancePos 按坐标距离排序</td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 按坐标距离排序。将FindPictureA和FindPictureNA返回的坐标数组中的坐标按和指定坐标的距离排序。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu"> 参数1　坐标数组：二维数组，可由FindPictureA和FindPictureNA获得。排序后的数组也由此处得到。<br />
+    参数2-3　横坐标,纵坐标：整型数，按坐标距离排序，是以这里指定的坐标为基准。<br />
+    参数4　方式：整型数，用于决定排序方式。取0时，按距离由近到远排序，取1时，按距离由远到近排序。</td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi">HandleArray=Plugin.FindPicture5_04.LoadBMP(&quot;Attachment:\图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1 Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+End If<br />
+XYArray=Plugin.FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Call Plugin.FindPicture5_04.SortDistancePos(XYArray,500,350,0)<br />
+n=UBound(XYArray,2)+1<br />
+If n Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i Then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Next<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+End If<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit()<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Call Plugin.FindPicture5_04.FreeBMP(HandleArray)<br />
+End Sub</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td>Plugin HandleArray=FindPicture5_04.LoadBMP(&quot;图A.bmp&quot;)<br />
+      <span class="STYLE2">//UBound函数用于获得指定数组维数的最大可用下标，在这里，数组大小是0时，返回-1</span><br />
+If UBound(HandleArray)=-1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;载入图片失败&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndScript<br />
+EndIf<br />
+Plugin XYArray=FindPicture5_04.FindPictureA(0,0,0,1024,768,HandleArray(0),30,0.9)<br />
+Plugin FindPicture5_04.SortDistancePos(XYArray,500,350,0)<br />
+n=UBound(XYArray,2)+1<br />
+If n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;已找到&quot;&amp;CStr(n)&amp;&quot;个&quot;,4096<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i=0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;str=&quot;&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;For n<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=str&amp;vbCrLf&amp;CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str=CStr(XYArray(0,i))&amp;&quot;,&quot;&amp;CStr(XYArray(1,i))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EndFor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox str,4096,&quot;坐标&quot;<br />
+Else<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MsgBox &quot;未找到图形&quot;,4096<br />
+EndIf<br />
+EndScript<br />
+<span class="STYLE2">//OnScriptExit过程在脚本结束时执行，即使脚本执行到一半的时候，你按了停止热键，它也会执行了这个过程再停止，这样能保证占用的资源被释放</span><br />
+Sub OnScriptExit<br />
+<span class="STYLE2">//释放用LoadBMP命令载入到内存中的图片数据</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;Plugin FindPicture5_04.FreeBMP(HandleArray)<br />
+Return</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="ts">
+  <tr>
+    <th width="100px">命令名称：</th>
+    <td class="name"><a name="GetErrorCode" id="GetErrorCode"></a>GetErrorCode 获得错误代码</td>
+  </tr>
+  <tr>
+    <th>命令功能：</th>
+    <td> 获得该插件中部分命令的错误代码。</td>
+  </tr>
+  <tr>
+    <th>命令参数：</th>
+    <td class="canshu">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>返回值：</th>
+    <td class="fanhui">整型数，错误代码。</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(8.x语法)</span> </th>
+    <td class="lizi">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>脚本例子：<br />
+        <span class="red">(7.x语法)</span> </th>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

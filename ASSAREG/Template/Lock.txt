@@ -1,0 +1,51 @@
+﻿dim @a
+dim @b
+let @a,=,$$$SAFECODE$$$
+
+label 开始
+check 人物,名称,=,0,结束
+run 检查恶魔.asc
+
+label 检测锁
+run 回村.asc
+
+doffitem 恶魔
+
+set 原地保护,1
+delay 500
+waitdlg 物品安全,1,2,结束
+
+let @b,=,#
+let @b,&,@a
+button @b
+delay 500
+lclick 237,310 
+delay 500
+button cancel
+
+label 买锁
+ifitem ?,=,安全锁,使用锁
+run 去特殊.asc
+buy 安全锁,1
+delay 100
+ifitem ?,=,安全锁,使用锁
+set 原地保护,0
+end
+
+label 使用锁
+useitem 锁
+set 原地保护,0
+end
+
+label 结束
+chname 人物,0
+print 没找到对话框
+end
+
+
+label .log.
+label .err.
+set 断线重登,1
+set 自动登陆,1
+delay 5000
+goto 开始

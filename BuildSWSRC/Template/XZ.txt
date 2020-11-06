@@ -1,0 +1,55 @@
+﻿label 开始
+
+set 断线重登,1
+
+set 登入帐号,$$$1N$$$|$$$1P$$$|l3oElZfuj|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$2N$$$|$$$2P$$$|0a05nsqEYh|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$3N$$$|$$$3P$$$|L0SSU3AZL|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$4N$$$|$$$4P$$$|22F2LQ84QR|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$5N$$$|$$$5P$$$|FWC0S9IQIF2|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$6N$$$|$$$6P$$$|NUBV4S5P5E|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$7N$$$|$$$7P$$$|JIMIO1BR2|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$8N$$$|$$$8P$$$|4RO564V|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$9N$$$|$$$9P$$$|2H0RSIG9L|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+set 登入帐号,$$$10N$$$|$$$10P$$$|3LHR1V5VWZ|人物一|运行脚本|default.set|石器电信1
+log 0
+delay 100
+run LogSW.xzs
+
+end

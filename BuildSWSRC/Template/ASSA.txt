@@ -1,0 +1,81 @@
+﻿label 开始
+
+log 2
+delay 1000
+print /CH;$$$1N$$$;$$$1P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$2N$$$;$$$2P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$3N$$$;$$$3P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$4N$$$;$$$4P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$5N$$$;$$$5P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$6N$$$;$$$6P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$7N$$$;$$$7P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$8N$$$;$$$8P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$9N$$$;$$$9P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
+
+log 2
+delay 1000
+print /CH;$$$10N$$$;$$$10P$$$
+delay 1000
+set 自动登陆,1
+delay 5000
+run 交易声望.asc
