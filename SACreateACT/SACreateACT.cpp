@@ -26,11 +26,41 @@ char* DefaultKey;
 
 int main()
 {
-	strcpy_s(charname, "5gs059");
-	ConnectServer();
-	strcpy_s(charname, "5gs060");
-	ConnectServer();
-		//CreateAccount();
+	FILE* fp = fopen("data.txt", "r");
+	if (!fp) {
+		printf("打开失败！\n");
+		return -1; //返回异常
+	}
+	
+	char delims[] = "|";
+	char cLine[1024];
+	int iBuff = 1024;
+	while (!feof(fp))
+	{
+		memset(charname, 0, sizeof(charname));
+		memset(password, 0, sizeof(password));
+		USERINFO userinfo;
+		fgets(cLine, iBuff, fp);
+		CString tmp = cLine;
+		char* result = NULL;
+		int i = 1;
+		result = strtok(cLine, delims);
+		while (result != NULL) {
+			if (1 == i) {
+				strcpy_s(charname, result);
+			}
+			if (2 == i) {
+				clean_string(result);
+				strcpy_s(password, result);
+			}
+			result = strtok(NULL, delims);
+			i++;
+		}
+		ConnectServer();
+		Sleep(2000);
+	}
+
+	fclose(fp);
 
     //std::cout << "Hello World!\n";
 	return 0;
@@ -86,7 +116,7 @@ int ConnectServer()
 	cout << "服务端：" << szBuffer << "\r\n" << endl;
 
 	
-	CheckUser(charname, "xiaohuilili", szBuffer);
+	CheckUser(charname, password, szBuffer);
 	CreateNewChar(0, "cangku00x", 100035, 30175, 10, 0, 0, 10, 5, 5, 0, 0, 1);
 	return 1;
 }
@@ -749,3 +779,60 @@ char* index(char* table, char src)
 	}
 	return p;
 }
+/*
+去掉字符串首尾的 \x20 \r \n 字符
+by sincoder
+*/
+void clean_string(char* str)
+{
+	char* start = str - 1;
+	char* end = str;
+	char* p = str;
+	while (*p)
+	{
+		switch (*p)
+		{
+		case ' ':
+		case '\r':
+		case '\n':
+		{
+			if (start + 1 == p)
+				start = p;
+		}
+		break;
+		default:
+			break;
+		}
+		++p;
+	}
+	//现在来到了字符串的尾部 反向向前
+	--p;
+	++start;
+	if (*start == 0)
+	{
+		//已经到字符串的末尾了
+		*str = 0;
+		return;
+	}
+	end = p + 1;
+	while (p > start)
+	{
+		switch (*p)
+		{
+		case ' ':
+		case '\r':
+		case '\n':
+		{
+			if (end - 1 == p)
+				end = p;
+		}
+		break;
+		default:
+			break;
+		}
+		--p;
+	}
+	memmove(str, start, end - start);
+	*(str + (int)end - (int)start) = 0;
+}
+

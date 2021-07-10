@@ -20,11 +20,17 @@
 #define SEPARATOR	";"
 #define SLICE_MAX	20
 #define DEFAULTFUNCEND		"#"
+#define maxlen 1000
 
 int SliceCount;
 char MesgSlice[SLICE_MAX][SLICE_SIZE];
 char charname[30];
+char password[30];
 
+typedef struct {
+    char charname[30];
+    char password[30];
+}USERINFO;
 
 typedef struct {
 	char ip[30];
@@ -94,3 +100,4 @@ int util_shl_64to256(char* dst, char* src, char* table, char* key);
 int util_destring(int sliceno, char* value);
 int util_shr_64to256(char* dst, char* src, char* table, char* key);
 char* index(char* table, char src);
+void clean_string(char* str);
