@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstccount = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -41,11 +42,11 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblver = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnFlight = new System.Windows.Forms.Button();
             this.btnClearn = new System.Windows.Forms.Button();
             this.btnClickMe = new System.Windows.Forms.Button();
-            this.lblver = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -176,6 +177,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "整理";
             // 
+            // lblver
+            // 
+            this.lblver.AutoSize = true;
+            this.lblver.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblver.Location = new System.Drawing.Point(627, 16);
+            this.lblver.Name = "lblver";
+            this.lblver.Size = new System.Drawing.Size(45, 20);
+            this.lblver.TabIndex = 11;
+            this.lblver.Text = "label1";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(354, 16);
@@ -214,16 +225,6 @@
             this.btnClickMe.UseVisualStyleBackColor = true;
             this.btnClickMe.Click += new System.EventHandler(this.btnClickMe_Click);
             // 
-            // lblver
-            // 
-            this.lblver.AutoSize = true;
-            this.lblver.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblver.Location = new System.Drawing.Point(627, 16);
-            this.lblver.Name = "lblver";
-            this.lblver.Size = new System.Drawing.Size(45, 20);
-            this.lblver.TabIndex = 11;
-            this.lblver.Text = "label1";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -232,8 +233,9 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASSAMON";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);

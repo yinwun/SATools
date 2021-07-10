@@ -181,6 +181,7 @@ namespace MornitorDel
             //选中脚本
             RunScript();
 
+            System.Threading.Thread.Sleep(10000);
             //启动脚本
             ClickRunScript(mainHanlder);
 
@@ -256,7 +257,48 @@ namespace MornitorDel
                 foreach(FileInfo finfo in fileInfo)
                 {
                     String[] strsTmp = File.ReadAllLines(finfo.FullName);
-                    foreach(String s in strsTmp)
+
+                    List<String> lstChar = new List<string>();
+                    foreach (String s in strsTmp)
+                    {
+                        if (String.IsNullOrEmpty(s)) continue;
+                        Console.WriteLine(s);
+                        String[] strsTnp = s.Split(']');
+
+                        if (strsTnp.Length == 2)
+                        {
+                            String[] strsNamePWD = strsTnp[1].Trim().Split('|');
+                            if (strsNamePWD.Length == 3)
+                            {
+                                if (!lstChar.Contains(strsNamePWD[0]))
+                                {
+                                    lstChar.Add(strsNamePWD[0]);
+                                    //生成人物名字文件
+                                    CreateASC(strsNamePWD[2]);
+                                    //Input username and Password
+                                    StartStoneage(strsNamePWD[0], strsNamePWD[1]);
+
+                                    File.AppendAllText(logPath, String.Format("[{0}] {1},{2}\r\n", DateTime.Now, strsNamePWD[0], strsNamePWD[1]));
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cannot get the pwd!");
+                                File.AppendAllText(logPath, String.Format("[{0}] Cannot get the pwd! {1} s\r\n", DateTime.Now, s));
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Cannot get the acctount info!");
+                            File.AppendAllText(logPath, String.Format("[{0}] Cannot get the acctount info! {1}\r\n", DateTime.Now, s));
+                        }
+
+                    }
+
+
+                    /*
+                        foreach (String s in strsTmp)
                     {
                         if (String.IsNullOrEmpty(s)) continue;
                         Console.WriteLine(s);
@@ -285,8 +327,8 @@ namespace MornitorDel
                             File.AppendAllText(logPath, String.Format("[{0}] Cannot get the acctount info! {1}\r\n", DateTime.Now, s));
                         }
 
-
-                    }
+   
+                    } */
 
                     //删除文件
                     try

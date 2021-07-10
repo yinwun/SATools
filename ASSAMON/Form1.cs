@@ -160,7 +160,8 @@ namespace ASSAMON
                 string assaPath = String.Format("{0}{1}", cm.GetConfigurationData("ASSAPATH"), sequence);
                 int processID = cm.StartAPP(Path.Combine(assaPath, assaExe), assaPath);
                 System.Threading.Thread.Sleep(waitTime);
-                mainHanlder = cm.GetWnd(processID, "ThunderRT6FormDC", "石器时代");
+                //mainHanlder = cm.GetWnd(processID, "ThunderRT6FormDC", "石器时代");
+                mainHanlder = cm.GetWnd(processID, "ThunderRT6FormDC", "柚子研究");
                 if (mainHanlder == IntPtr.Zero)
                 {
                     MessageBox.Show("Start Fail!");
@@ -202,7 +203,7 @@ namespace ASSAMON
             }
             return true;
         }
-        private void StartStoneage(Dictionary<String, String> dctLoginInfo)
+        private void StartStoneage(Dictionary<String, String> dctLoginInfo, bool isStartScript)
         {
             //Start ASSA
             IntPtr mainHanlder = IntPtr.Zero;
@@ -216,7 +217,7 @@ namespace ASSAMON
             System.Threading.Thread.Sleep(waitTime);
 
             //激活石器
-            IntPtr iBShiqi = cm.FindWindowEx(mainHanlder, "激活石器", true);
+            IntPtr iBShiqi = cm.FindWindowEx(mainHanlder, "启动石器", true);
             if (iBShiqi == IntPtr.Zero)
             {
                 MessageBox.Show("Start Shiqi Fail!");
@@ -294,27 +295,31 @@ namespace ASSAMON
             //点击自动登陆
             CLickAutoLogin();
 
-            //点击脚本
-            IntPtr ibtScript = cm.GetHwndByValue(dctASSA, "脚本");
-            cm.MouseRightClick(ibtScript);
-            System.Threading.Thread.Sleep(waitTime);
+            if (isStartScript)
+            {
+                //点击脚本
+                IntPtr ibtScript = cm.GetHwndByValue(dctASSA, "脚本");
+                cm.MouseRightClick(ibtScript);
+                System.Threading.Thread.Sleep(waitTime);
 
-            //运行脚本
-            RunScript(dctLoginInfo["type"]);
+                //运行脚本
+                RunScript(dctLoginInfo["type"]);
 
-            //启动脚本
-            ClickRunScript(mainHanlder);
+                //启动脚本
+                ClickRunScript(mainHanlder);
 
-            //SendKeys.SendWait("{F5}");
-            //System.Threading.Thread.Sleep(waitTime);
+                //SendKeys.SendWait("{F5}");
+                //System.Threading.Thread.Sleep(waitTime);
 
-            //隐藏石器
-            CliclHideASSA(mainHanlder);
+                //隐藏石器
+                CliclHideASSA(mainHanlder);
 
-            //绑定数据
-            //LoadActiveData(saHanlder, dctLoginInfo["userName"]);
+                //绑定数据
+                //LoadActiveData(saHanlder, dctLoginInfo["userName"]);
 
-            SendKeys.SendWait("{F9}");
+                SendKeys.SendWait("{F9}");
+            }
+       
 
         }
 
@@ -679,7 +684,7 @@ namespace ASSAMON
             cm.MouseRightClick(ibtScript);
             System.Threading.Thread.Sleep(waitTime);
         }
-        private void StartAccounts(bool isALL)
+        private void StartAccounts(bool isALL, bool isStartScript)
         {
             Dictionary<String, String> dctLoginInfo = new Dictionary<string, string>();
             if (isALL)
@@ -688,7 +693,7 @@ namespace ASSAMON
                 {
                     dctLoginInfo = new Dictionary<string, string>();
                     cm.GetUserNamePWD(item.ToString(), ref dctLoginInfo);
-                    StartStoneage(dctLoginInfo);
+                    StartStoneage(dctLoginInfo, isStartScript);
                     System.Threading.Thread.Sleep(3000);
                 }
 
@@ -700,7 +705,7 @@ namespace ASSAMON
                 {
                     dctLoginInfo = new Dictionary<string, string>();
                     cm.GetUserNamePWD(item.ToString(), ref dctLoginInfo);
-                    StartStoneage(dctLoginInfo);
+                    StartStoneage(dctLoginInfo, isStartScript);
                     System.Threading.Thread.Sleep(3000);
                 }
             }
@@ -868,7 +873,7 @@ namespace ASSAMON
                     if (!CheckActAlreadyRunning(newAct))
                     {
                         Dictionary<String, String> dct = GetActDct(newAct);
-                        StartStoneage(dct);
+                        StartStoneage(dct, true);
                     }
                 }
             }
@@ -1128,7 +1133,7 @@ namespace ASSAMON
 
                     if (!isExit)
                     {
-                        StartStoneage(dct);
+                        StartStoneage(dct, true);
                     }
                 }
             }
@@ -1262,12 +1267,12 @@ namespace ASSAMON
 
         private void BtnStartALL_Click(object sender, EventArgs e)
         {
-            StartAccounts(true);
+            StartAccounts(true, true);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            StartAccounts(false);
+            StartAccounts(false, true);
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -1331,11 +1336,10 @@ namespace ASSAMON
 
         private void btnClearn_Click(object sender, EventArgs e)
         {
-            StartCleanAccounts();
+            //StartCleanAccounts();
+            StartAccounts(false, false);
         }
 
-        #region STW
-        //
         private void StartFlightSTW()
         {
 
@@ -1382,6 +1386,7 @@ namespace ASSAMON
             return true;
         }
 
+        #region STW
         private void StartStoneageForFlightSTW(Dictionary<String, String> dctLoginInfo, int seq)
         {
             //Start ASSA

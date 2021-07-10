@@ -49,7 +49,7 @@ namespace Vcode
             if (LoadWmFromFile(libFile, "1234"))
             {
                 SetWmOption(6, 90);
-                files = Directory.GetFiles(@"E:\AI\code");
+                files = Directory.GetFiles(@"F:\captcha\image");
             }
             else
             {
@@ -59,23 +59,35 @@ namespace Vcode
 
         private void btnVerify_Click(object sender, EventArgs e)
         {
-            StringBuilder Result = new StringBuilder('\0', 256);
+            for ( ; i < files.Length; i++)
+            {
+                StringBuilder Result = new StringBuilder('\0', 256);
 
-            picBox.Image = Image.FromFile(files[i]);
+                picBox.Image = Image.FromFile(files[i]);
 
-            //以下使用GetImageFromBuffer接口
-            FileStream fsMyfile = File.OpenRead(files[i]);
-            int FileLen = (int)fsMyfile.Length;
-            byte[] Buffer = new byte[FileLen];
-            fsMyfile.Read(Buffer, 0, FileLen);
-            fsMyfile.Close();
+                //以下使用GetImageFromBuffer接口
+                FileStream fsMyfile = File.OpenRead(files[i]);
+                int FileLen = (int)fsMyfile.Length;
+                byte[] Buffer = new byte[FileLen];
+                fsMyfile.Read(Buffer, 0, FileLen);
+                fsMyfile.Close();
 
-            if (GetImageFromBuffer(Buffer, FileLen, Result))
-                txtResult.Text = Result.ToString();
-            else
-                MessageBox.Show("识别失败");
+                if (GetImageFromBuffer(Buffer, FileLen, Result))
+                {
 
-            i++;
+                    txtResult.Text = Result.ToString();
+                    txtCodeCopy.Text = Result.ToString();
+                    txtPath.Text = files[i];
+
+
+                    String file = @"F:\captcha\iamge_train\\" + txtCodeCopy.Text.Trim() + "_" + Guid.NewGuid().ToString() + ".jpg";
+                    File.Copy(txtPath.Text, file, true);
+                    txtRst.Text = i.ToString() + "_Done.";
+                }
+                else
+                    MessageBox.Show("识别失败");
+
+            }
         }
 
         private void btnHTTP_Click(object sender, EventArgs e)
@@ -95,6 +107,18 @@ namespace Vcode
             string responseContent = streamReader.ReadToEnd();
             streamReader.Close();
             httpWebResponse.Close();
+        }
+
+        private void btnGen_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show(Guid.NewGuid().ToString());
+
+            //MessageBox.Show(files[i]);
+
+            String file = @"F:\captcha\iamge_train\\" + txtCodeCopy.Text.Trim() + "_" + Guid.NewGuid().ToString() + ".jpg";
+            File.Copy(txtPath.Text, file, true);
+            txtRst.Text = i.ToString() + "_Done.";
+
         }
     }
 }
