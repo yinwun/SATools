@@ -1248,6 +1248,7 @@ namespace ASSAMON
 
         private void Form1_Load(object sender, EventArgs e)
         {
+        
             btnRefresh.Enabled = false;
             lstccount.SelectionMode = SelectionMode.MultiExtended;
             LoadAccounts();

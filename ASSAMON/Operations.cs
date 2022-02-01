@@ -258,6 +258,43 @@ namespace ASSAMON
             System.Threading.Thread.Sleep(waitTime);
         }
 
+        public void RunScript(String type, int waitTime)
+        {
+
+            int loginX = -1;
+            int loginY = -1;
+            String key = String.Empty;
+            //Click Type HD or MO
+            string tmpStr = type;
+            key = tmpStr.Substring(0, 2);
+            cm.GetXY(key, ref loginX, ref loginY);
+            System.Threading.Thread.Sleep(waitTime);
+            cm.MouseMove(loginX, loginY);
+            System.Threading.Thread.Sleep(waitTime);
+            cm.MouseSingleClick();
+            System.Threading.Thread.Sleep(waitTime);
+
+            //Node type
+            tmpStr = type;
+            key = tmpStr.Substring(0, 4);
+            cm.GetXY(key, ref loginX, ref loginY);
+            System.Threading.Thread.Sleep(waitTime);
+            cm.MouseMove(loginX, loginY);
+            System.Threading.Thread.Sleep(waitTime);
+            cm.MouseSingleClick();
+            System.Threading.Thread.Sleep(waitTime);
+
+            //Click Script
+            tmpStr = type;
+            key = tmpStr;
+            cm.GetXY(key, ref loginX, ref loginY);
+            System.Threading.Thread.Sleep(waitTime);
+            cm.MouseMove(loginX, loginY);
+            System.Threading.Thread.Sleep(waitTime);
+            cm.MouseSingleClick();
+            System.Threading.Thread.Sleep(waitTime);
+        }
+
 
         public void ClickRunScript(IntPtr mainHanlde, Dictionary<IntPtr, String> dctASSA, int waitTime)
         {

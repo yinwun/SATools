@@ -460,7 +460,15 @@ namespace ASSAMON
                 System.Threading.Thread.Sleep(constant.waitTime);
 
                 //运行脚本
-                operations.RunScript(constant.waitTime);
+                if (startUPType == StartUPType.SHENGWANG)
+                {
+                    operations.RunScript(dctLoginInfo["type"], constant.waitTime);
+                }
+                else
+                {
+                    operations.RunScript(constant.waitTime);
+                }
+                
 
                 //启动脚本
                 operations.ClickRunScript(mainHanlder, dctASSA, constant.waitTime);
